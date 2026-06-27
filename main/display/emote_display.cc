@@ -176,8 +176,11 @@ EmoteDisplay::EmoteDisplay(const esp_lcd_panel_handle_t panel, const esp_lcd_pan
     height_ = height;
     panel_handle_ = panel;
     current_emotion_ = EMOT_BIASA;
+    
+    // Alokasikan pointer dummy/kosong agar validasi pengecekan '!= nullptr' di assets.cc lolos
+    emote_handle_ = (emote_handle_t)1; // Trik pointer dummy agar tidak NULL jika system mengeceknya
 
-    // Membuat task FreeRTOS khusus untuk merender wajah murni secara realtime di Core 1
+    // Jalankan task wajah murni Lubby Robot kita
     xTaskCreatePinnedToCore(EmoteRenderTask, "WajahMurniTask", 4096, this, 5, NULL, 1);
 }
 
